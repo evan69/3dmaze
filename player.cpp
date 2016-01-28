@@ -20,21 +20,35 @@ void player::turnLeft()
 void player::turnRight()
 {
 	direction -= step;
+	if(direction < 0)
+	{
+		direction += 2.0 * PI;
+	}
 }
 
 void player::forward()
 {
-	x -= speed * sin(direction);
-	z -= speed * cos(direction);
+	x += speed * cos(direction);
+	z += speed * sin(direction);
 }
 
 void player::backward()
 {
-	x += speed * sin(direction);
-	z += speed * cos(direction);
+	x -= speed * cos(direction);
+	z -= speed * sin(direction);
 }
 
 coord player::getCoord()
 {
 	return coord(x,y,z);
+}
+
+GLdouble player::getDir()
+{
+	return direction;
+}
+
+GLdouble player::getSpeed()
+{
+	return speed;
 }

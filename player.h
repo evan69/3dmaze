@@ -17,6 +17,8 @@ public:
 	void forward();//前进
 	void backward();//后退
 	coord getCoord();//获取当前坐标
+	GLdouble getDir();//
+	GLdouble getSpeed();
 };
 
 #endif
