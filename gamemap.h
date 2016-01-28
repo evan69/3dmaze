@@ -5,6 +5,11 @@
 #include <vector>
 using std::vector;
 
+extern const GLdouble PI;
+extern const int WIDTH;
+extern const int HEIGHT;
+extern void drawCube(GLdouble x,GLdouble y,GLdouble z);
+
 struct wall
 {
 	int x;

@@ -1,10 +1,11 @@
 #include "player.h"
 #include <cmath>
 
-player::player(GLdouble _y,GLdouble _speed,GLdouble _step):
+player::player(GLdouble _x,GLdouble _y,GLdouble _z,GLdouble _speed,GLdouble _step):
 	y(_y),speed(_speed),step(_step)
 {
-	x = z = 0.0;
+	x = _x;
+	z = _z;
 	direction = 0.0;
 }
 
