@@ -9,7 +9,7 @@ player::player(GLdouble _x,GLdouble _y,GLdouble _z,GLdouble _speed,GLdouble _ste
 	direction = 0.0;
 }
 
-void player::turnLeft()
+void player::turnRight()
 {
 	direction += step;
 	if(direction > 2.0 * PI)
@@ -18,7 +18,7 @@ void player::turnLeft()
 	}
 }
 
-void player::turnRight()
+void player::turnLeft()
 {
 	direction -= step;
 	if(direction < 0)

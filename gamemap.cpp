@@ -66,11 +66,6 @@ bool gameMap::doForward(player* pl)
 	{
 		if(it->dir == wall::WALL_X)
 		{
-			/*if((pl->getCoord().z - it->z) * (pl->getCoord().z + pl->getSpeed() * sin(pl->getDir())) < 0.0
-				&& (pl->getCoord().x + (it->z - pl->getCoord().z) / tan(pl->getDir()) - it->x) * 
-				(pl->getCoord().x + (it->z - pl->getCoord().z) / tan(pl->getDir()) - it->x - 1) < 0.0)
-			*/
-			//if(pl->getCoord().x > it->x && pl->getCoord().x < it->x + 1 && pl->getCoord().z > )
 			if(abs(pl->getCoord().x - it->x - 0.5) < 0.5 && abs(pl->getCoord().z - it->z) < 0.1)
 			{
 				if(pl->getCoord().z < it->z && pl->getDir() < PI) return false;
@@ -92,7 +87,29 @@ bool gameMap::doForward(player* pl)
 
 bool gameMap::doBackward(player* pl)
 {
-	return 0;
+	for(vector<wall>::iterator it = data.begin();it != data.end();++it)
+	{
+		if(it->dir == wall::WALL_X)
+		{
+			if(abs(pl->getCoord().x - it->x - 0.5) < 0.5 && abs(pl->getCoord().z - it->z) < 0.2)
+			{
+				if(pl->getCoord().z < it->z && pl->getDir() > 3 * PI / 2) return false;
+				if(pl->getCoord().z > it->z && pl->getDir() < PI / 2) return false;
+			}
+		}
+		if(it->dir == wall::WALL_Z)
+		{
+			if(abs(pl->getCoord().z - it->z - 0.5) < 0.5 && abs(pl->getCoord().x - it->x) < 0.2)
+			{
+				if(pl->getCoord().x < it->x && (pl->getDir() > PI / 2 && pl->getDir() < 3 * PI / 2)) return false;
+				
+				if(pl->getCoord().x > it->x && (pl->getDir() < PI / 2 || pl->getDir() > 3 * PI / 2)) return false;
+				
+			}
+		}
+	}
+	pl->backward();
+	return true;
 }
 
 void gameMap::draw()
@@ -101,4 +118,25 @@ void gameMap::draw()
 	{
 		it->draw();
 	}
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glColor3d(0.1,0.1,0.1);
+	drawCube(10,0.1,10);
+	glPopMatrix();
+	drawFlag();
+}
+
+void gameMap::drawFlag()
+{
+	glRasterPos3f(target.x+0.5,0.5,target.z+0.5);
+	glColor3d(1,0,0);
+	char t[] = "here";
+	/*
+	for(unsigned int i = 0;i < 4;i++)
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, t[i]);
+	*/
+	glPushMatrix();
+	glTranslated(target.x+0.5,0.5,target.z+0.5);
+	glutSolidSphere(0.1,30,30);
+	glPopMatrix();
 }

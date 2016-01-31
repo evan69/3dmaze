@@ -35,6 +35,7 @@ public:
 	bool doForward(player*);
 	bool doBackward(player*);
 	void draw();
+	void drawFlag();
 };
 
 #endif
