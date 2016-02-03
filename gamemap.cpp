@@ -8,18 +8,18 @@ using std::endl;
 
 void wall::draw()
 {
-	glColor3d(0,1,0);
+	glColor3d(0,0.5,0);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	if(dir == wall::WALL_X)
 	{
 		glTranslated(x + 0.5,0.5,z);
-		drawCube(1,1,0.1);
+		drawCube(1.1,1,0.1);
 	}
 	if(dir == wall::WALL_Z)
 	{
 		glTranslated(x,0.5,z + 0.5);
-		drawCube(0.1,1,1);
+		drawCube(0.1,1,1.1);
 	}
 	glPopMatrix();
 }
@@ -66,7 +66,7 @@ bool gameMap::doForward(player* pl)
 	{
 		if(it->dir == wall::WALL_X)
 		{
-			if(abs(pl->getCoord().x - it->x - 0.5) < 0.5 && abs(pl->getCoord().z - it->z) < 0.1)
+			if(abs(pl->getCoord().x - it->x - 0.5) < 0.55 && abs(pl->getCoord().z - it->z) < 0.15)
 			{
 				if(pl->getCoord().z < it->z && pl->getDir() < PI) return false;
 				if(pl->getCoord().z > it->z && pl->getDir() > PI) return false;
@@ -74,7 +74,7 @@ bool gameMap::doForward(player* pl)
 		}
 		if(it->dir == wall::WALL_Z)
 		{
-			if(abs(pl->getCoord().z - it->z - 0.5) < 0.5 && abs(pl->getCoord().x - it->x) < 0.1)
+			if(abs(pl->getCoord().z - it->z - 0.5) < 0.55 && abs(pl->getCoord().x - it->x) < 0.15)
 			{
 				if(pl->getCoord().x < it->x && (pl->getDir() < PI / 2 || pl->getDir() > 3 * PI / 2)) return false;
 				if(pl->getCoord().x > it->x && (pl->getDir() > PI / 2 && pl->getDir() < 3 * PI / 2)) return false;
@@ -121,7 +121,7 @@ void gameMap::draw()
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glColor3d(0.1,0.1,0.1);
-	drawCube(10,0.1,10);
+	drawCube(20,0.1,20);
 	glPopMatrix();
 	drawFlag();
 }
@@ -139,4 +139,13 @@ void gameMap::drawFlag()
 	glTranslated(target.x+0.5,0.5,target.z+0.5);
 	glutSolidSphere(0.1,30,30);
 	glPopMatrix();
+}
+
+void gameMap::checkWin(player* pl,int* flag)
+{
+	coord pos = pl->getCoord();
+	*flag = 0;
+	if(pos.x > target.x && pos.x < target.x + 1)
+		if(pos.z > target.z && pos.z < target.z + 1)
+			*flag = 1;
 }

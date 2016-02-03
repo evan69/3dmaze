@@ -36,6 +36,7 @@ public:
 	bool doBackward(player*);
 	void draw();
 	void drawFlag();
+	void checkWin(player*,int*);
 };
 
 #endif
